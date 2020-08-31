@@ -11,7 +11,9 @@ END ENTITY komp;
 
 ARCHITECTURE arh OF komp IS
 BEGIN
-    cout <= a = b;
+    PROCESS BEGIN
+        cout <= a = b;
+    END PROCESS;
 END ARCHITECTURE;
 
 -- END KOMPARATOR
@@ -32,16 +34,18 @@ END ENTITY and_or;
 
 ARCHITECTURE arhi OF and_or IS
 BEGIN
-    niz : FOR i IN a'RANGE GENERATE
-    BEGIN
+    PROCESS BEGIN
+        niz : FOR i IN a'RANGE GENERATE
+        BEGIN
 
-        IF and_ = '1' THEN
-            cout <= a(i) AND cout;
-        ELSE
-            cout <= a(i) OR cout;
-        END IF;
+            IF and_ = '1' THEN
+                cout <= a(i) AND cout;
+            ELSE
+                cout <= a(i) OR cout;
+            END IF;
 
-    END GENERATE niz;
+        END GENERATE niz;
+    END PROCESS;
 END ARCHITECTURE arhi;
 
 -- END AND/!OR
@@ -62,15 +66,17 @@ END ENTITY nkomp;
 ARCHITECTURE arhp OF nkomp IS
     SIGNAL y : std_logic_vector(n - 1 DOWNTO 0)
 BEGIN
-    niz : FOR i IN a'RANGE GENERATE
-    BEGIN
-        celija : ENTITY work.komp(arh)
-            PORT MAP(a => a(i), b => b(i), cout => y(i));
-    END GENERATE niz;
-
     kako_god : ENTITY work.and_or(arhi)
         GENERIC MAP(n => n)
         PORT MAP(a => y, cout => e, and_ => '1');
+
+    PROCESS BEGIN
+        niz : FOR i IN a'RANGE GENERATE
+        BEGIN
+            celija : ENTITY work.komp(arh)
+                PORT MAP(a => a(i), b => b(i), cout => y(i));
+        END GENERATE niz;
+    END PROCESS;
 
 END ARCHITECTURE arhp;
 
@@ -92,12 +98,14 @@ END ENTITY pin_komp;
 
 ARCHITECTURE kreativno_ime OF pin_komp IS
 BEGIN
-    IF clk'event AND clk = '1'
-    BEGIN
-        komp : ENTITY work.nkomp(arhp)
-            GENERIC MAP(n => n);
-        PORT MAP(a => pin, b => input_, e => e);
-    END IF;
+    PROCESS (clk) BEGIN
+        IF clk = '1'
+        BEGIN
+            komp : ENTITY work.nkomp(arhp)
+                GENERIC MAP(n => n)
+                PORT MAP(a => pin, b => input_, e => e);
+        END IF;
+    END PROCESS;
 END ARCHITECTURE kreativno_ime;
 
 -- END PIN KOMPARATOR
