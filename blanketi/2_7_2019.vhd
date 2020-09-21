@@ -6,7 +6,8 @@ USE ieee.std_logic_1164.ALL;
 ENTITY komp IS
     PORT (
         a, b : IN std_logic;
-        cout : OUT std_logic);
+        cout : OUT std_logic
+    );
 END ENTITY komp;
 
 ARCHITECTURE arh OF komp IS
@@ -35,7 +36,7 @@ END ENTITY and_or;
 ARCHITECTURE arhi OF and_or IS
 BEGIN
     PROCESS BEGIN
-        niz : FOR i IN a'RANGE GENERATE
+        FOR i IN a'RANGE LOOP
         BEGIN
 
             IF and_ = '1' THEN
@@ -44,7 +45,7 @@ BEGIN
                 cout <= a(i) OR cout;
             END IF;
 
-        END GENERATE niz;
+        END LOOP;
     END PROCESS;
 END ARCHITECTURE arhi;
 

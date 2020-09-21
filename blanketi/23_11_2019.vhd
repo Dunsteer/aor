@@ -66,11 +66,9 @@ END ENTITY n_komparator;
 ARCHITECTURE compare OF n_comparator IS
 BEGIN
     PROCESS BEGIN
-        IF (rulaz = bulaz) THEN
-            cout <= '1';
-        ELSE
-            cout <= '0';
-        END IF;
+        FOR i IN rulaz'RANGE LOOP
+            cout <= (rulaz(i) = bulaz(i)) AND cout;
+        END LOOP;
     END PROCESS;
 END ARCHITECTURE compare;
 --------------------------------------------------------------------------

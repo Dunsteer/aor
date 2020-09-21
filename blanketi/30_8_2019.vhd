@@ -5,7 +5,7 @@ ENTITY parnost IS
     GENERIC (n : INTEGER);
     PORT (
         ulaz : IN std_logic_vector(n - 1 DOWNTO 0);
-        izlaz : OUT std_logic_vector(n - 1 DOWNTO 0);
+        izlaz : OUT std_logic_vector(n - 1 DOWNTO 0)
     );
 END ENTITY parnost;
 
@@ -13,19 +13,20 @@ ARCHITECTURE parnost_arch OF parnost IS
     SIGNAL acc : std_logic := '0';
 BEGIN
     PROCESS BEGIN
-        obilazak : FOR i IN (n - 2 DOWNTO 0) GENERATE
-            acc := acc XOR ulaz(i);
-        END GENERATE obilazak;
+        FOR i IN (n - 2 DOWNTO 0) LOOP
+            acc <= acc XOR ulaz(i);
+        END LOOP;
 
         izlaz <= ulaz;
         izlaz(n - 1) <= acc;
+
     END PROCESS;
 END ARCHITECTURE parnost_arch;
 ENTITY zadatak IS
     PORT (
         a, b : IN std_logic_vector(8 DOWNTO 0);
         izlaz : OUT std_logic_vector(8 DOWNTO 0);
-        validnost : OUT std_logic;
+        validnost : OUT std_logic
     );
 END ENTITY zadatak;
 
@@ -43,8 +44,8 @@ BEGIN
     PROCESS BEGIN
         validnost <= a_(8) = a(8) AND b_(8) = b(8);
 
-        a_(8) := '0';
-        b_(8) := '0';
+        a_(8) <= '0';
+        b_(8) <= '0';
         izlaz <= a_ + b_;
     END PROCESS;
 END ARCHITECTURE zadatak_arch;
