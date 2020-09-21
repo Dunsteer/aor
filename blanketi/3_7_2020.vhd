@@ -15,7 +15,7 @@ ARCHITECTURE karch OF kxor IS
 
         FOR i IN in_'RANGE LOOP
         BEGIN
-            out_ <= in_(i)XOR out_;
+            out_ <= in_(i) XOR out_;
         END LOOP;
     END PROCESS;
 END ARCHITECTURE;
@@ -40,15 +40,15 @@ BEGIN
     PROCESS (clk, reset)
     BEGIN
         IF (reset = '1') THEN
-            buff := (OTHERS => '0');
+            buff <= (OTHERS => '0');
         ELSIF clk = '1' THEN
             s_iz <= buff(0);
 
             FOR i IN (0 TO n - 2) LOOP
-                buff(i) := buff(i + 1);
+                buff(i) <= buff(i + 1);
             END LOOP;
 
-            buff(n - 1) := s_ul;
+            buff(n - 1) <= s_ul;
             p_iz <= buff;
         END IF;
     END PROCESS;
@@ -74,18 +74,18 @@ BEGIN
     PROCESS (clk, reset)
     BEGIN
         IF (reset = '1') THEN
-            a0 := (OTHERS => '0');
-            a1 := (OTHERS => '0');
+            a0 <= (OTHERS => '0');
+            a1 <= (OTHERS => '0');
         ELSIF clk = '1' AND enable = '1' THEN
 
             IF (a0 = "1001") AND (a1 /= "1001") THEN
-                a0 := "0000";
-                a1 := a1 + "0001";
+                a0 <= "0000";
+                a1 <= a1 + "0001";
             ELSIF (a0 = "1001") AND (a1 = "1001") THEN
-                a0 := "0000";
-                a1 := "0000";
+                a0 <= "0000";
+                a1 <= "0000";
             ELSE
-                a0 := a0 + "0000";
+                a0 <= a0 + "0000";
             END IF;
             a <= std_logic_vector'(a1, a0);
         END IF;
